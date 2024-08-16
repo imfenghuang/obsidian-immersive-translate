@@ -20,7 +20,7 @@ Obsidian Immersive Translate is a Obsidian (https://obsidian.md) plugin for fore
 2. Extract `obsidian-immersive-translate` folder from the zip to your vault's plugins folder `<vault>/.obsidian/plugins/` (Note: `.obsidian` folder may be hidden, you need to show it firstly)
 3. Open Settings > community plugins, reload and activate the plugin below installed plugins list
 
-## Useage
+## Usage
 
 - This plugin works in reading mode.
 
