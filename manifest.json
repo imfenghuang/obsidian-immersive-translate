@@ -1,0 +1,9 @@
+{
+	"id": "immersive-translate",
+	"name": "Immersive Translate",
+	"version": "0.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "A free-to-use translatation service for foreign language markdown file.",
+	"author": "imfenghuang",
+	"isDesktopOnly": true
+}
