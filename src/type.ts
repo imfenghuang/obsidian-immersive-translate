@@ -72,15 +72,9 @@ export type PageRuleKey = keyof PageRule;
 export type Settings = {
 	[key in PageRuleKey]: PageRule[key];
 };
+
 export type ImtConfig = {
 	pageRule: {
 		[key in keyof PageRule]: PageRule[key];
 	};
 };
-const a: ImtConfig = {
-	pageRule: {
-		selectors: [],
-		// aiRule:1
-	},
-};
-console.log(a);

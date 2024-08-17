@@ -60,17 +60,24 @@ export default class ImtPlugin extends Plugin {
 		state === 'dual' && restoreTranslate();
 
 		const imtScript = document.querySelector('.imt-script');
-		const style = document.querySelector(
-			'[data-id="immersive-translate-input-injected-css"]'
-		);
-		const removeList = [imtPopup, imtScript, style].filter((v) => !!v);
+		const styleList = [
+			...document.querySelectorAll('[data-id*="immersive-translate"]'),
+		];
+		const removeList: Element[] = [];
+		[imtPopup, imtScript, styleList]
+			.filter((v) => !!v)
+			.forEach((v) =>
+				Array.isArray(v)
+					? v.forEach((s) => removeList.push(s))
+					: removeList.push(v)
+			);
 		removeList.forEach((v) => v?.remove?.());
 
 		document
 			.querySelectorAll(`[data-immersive-translate-walked]`)
-			?.forEach((v) => {
-				v.removeAttribute('data-immersive-translate-walked');
-			});
+			?.forEach((v) =>
+				v.removeAttribute('data-immersive-translate-walked')
+			);
 
 		html?.removeAttribute('imt-state');
 		html?.removeAttribute('imt-trans-position');
