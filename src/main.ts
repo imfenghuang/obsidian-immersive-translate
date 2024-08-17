@@ -68,8 +68,8 @@ export default class ImtPlugin extends Plugin {
 			.filter((v) => !!v)
 			.forEach((v) =>
 				Array.isArray(v)
-					? v.forEach((s) => removeList.push(s))
-					: removeList.push(v)
+					? v.forEach((s) => s && removeList.push(s))
+					: v && removeList.push(v)
 			);
 		removeList.forEach((v) => v?.remove?.());
 
