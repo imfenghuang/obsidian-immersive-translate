@@ -34,7 +34,7 @@ export const clearStorage = async () => {
 
 export const restoreTranslate = () => {
 	const event = new KeyboardEvent('keydown', {
-		key: 'å',
+		key: 'a',
 		keyCode: 65,
 		which: 65,
 		code: 'KeyA',
@@ -50,14 +50,3 @@ export const getArrayStr = (arr?: string[]) => {
 	}
 	return `[${arr.map((v) => `${JSON.stringify(v)}`)}]`;
 };
-
-export function debounce<F extends (...args: Parameters<F>) => ReturnType<F>>(
-	callback: F,
-	wait = 500
-) {
-	let timer: number;
-	return (...args: Parameters<F>): void => {
-		clearTimeout(timer);
-		timer = window.setTimeout(() => callback(...args), wait);
-	};
-}

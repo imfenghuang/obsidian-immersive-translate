@@ -1,6 +1,6 @@
-import { App, PluginSettingTab, Component, Setting } from 'obsidian';
+import { App, PluginSettingTab, Component, Setting, debounce } from 'obsidian';
 import ImgPlugin from './main';
-import { getArrayStr, debounce } from './utils';
+import { getArrayStr } from './utils';
 import { Settings } from './type';
 
 export const defaultPageRule = {
@@ -40,7 +40,7 @@ export class SettingTab extends PluginSettingTab {
 	compareSetting() {
 		if (
 			this.getCompareStr(this.plugin.settings) !==
-				this.getCompareStr(this.tempSettings) &&
+			this.getCompareStr(this.tempSettings) &&
 			this.relaunchRef
 		) {
 			this.relaunchRef
@@ -73,7 +73,7 @@ export class SettingTab extends PluginSettingTab {
 		// selectors
 		const selectorsDefault = defaultPageRule.pageRule.selectors;
 		const selectorsValue = getArrayStr(this.plugin.settings?.selectors);
-		const debounceChangeSelectorsFn = debounce(async (value) => {
+		const debounceChangeSelectorsFn = debounce(async (value: string) => {
 			try {
 				const temp = JSON.parse(value);
 				if (!temp.includes(selectorsDefault[0])) {
@@ -88,7 +88,7 @@ export class SettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('Selectors')
 			.setDesc(`Array, default: ${getArrayStr(selectorsDefault)}`)
-			.addText((text) =>
+			.addTextArea((text) =>
 				text
 					.setValue(selectorsValue)
 					.onChange(debounceChangeSelectorsFn)
@@ -100,7 +100,7 @@ export class SettingTab extends PluginSettingTab {
 		const excludeSelectorsValue = getArrayStr(
 			this.plugin.settings?.excludeSelectors
 		);
-		const debounceChangExcludeSelectorsFn = debounce(async (value) => {
+		const debounceChangExcludeSelectorsFn = debounce(async (value:string) => {
 			try {
 				const temp = JSON.parse(value);
 				if (!temp.includes(excludeSelectorsDefault[0])) {
@@ -115,7 +115,7 @@ export class SettingTab extends PluginSettingTab {
 		new Setting(containerEl)
 			.setName('ExcludeSelectors')
 			.setDesc(`Array, default: ${getArrayStr(excludeSelectorsDefault)}`)
-			.addText((text) =>
+			.addTextArea((text) =>
 				text
 					.setValue(excludeSelectorsValue)
 					.onChange(debounceChangExcludeSelectorsFn)
