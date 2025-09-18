@@ -2,6 +2,7 @@ import { App, PluginSettingTab, Component, Setting, debounce } from 'obsidian';
 import ImgPlugin from './main';
 import { getArrayStr } from './utils';
 import { Settings } from './type';
+import { SDKType } from './type';
 
 export const defaultPageRule = {
 	pageRule: {
@@ -10,10 +11,32 @@ export const defaultPageRule = {
 	},
 };
 
+export const defaultLiteSettings = {
+	sdkType: 'Lite',
+	isShowDisclaimer: true,
+	partnerId: 'obsidian-immersive-translate',
+	mountPoint: {
+		selector: '#immersiveTranslate-translation-button',
+		action: 'child',
+	},
+	disclaimerPoint: {
+		selector: '#immersiveTranslate-disclaimer-wrapper',
+		action: 'child',
+	},
+};
+
 export class SettingTab extends PluginSettingTab {
 	private component: Component;
-	private tempSettings: Pick<Settings, 'selectors' | 'excludeSelectors'>;
-	private compareKeys: ['selectors', 'excludeSelectors'];
+	private tempSettings: Pick<
+		Settings,
+		'selectors' | 'excludeSelectors' | 'sdkType' | 'isShowDisclaimer'
+	>;
+	private compareKeys: [
+		'selectors',
+		'excludeSelectors',
+		'sdkType',
+		'isShowDisclaimer',
+	];
 	private relaunchRef: Setting | undefined;
 	name: string;
 
@@ -23,24 +46,36 @@ export class SettingTab extends PluginSettingTab {
 	) {
 		super(app, plugin);
 		this.component = new Component();
-		this.compareKeys = ['selectors', 'excludeSelectors'];
+		this.compareKeys = [
+			'selectors',
+			'excludeSelectors',
+			'sdkType',
+			'isShowDisclaimer',
+		];
 
 		const obj = Object.fromEntries(
 			this.compareKeys.map((v) => [v, this.plugin.settings[v]])
-		) as Pick<Settings, 'selectors' | 'excludeSelectors'>;
+		) as Pick<
+			Settings,
+			'selectors' | 'excludeSelectors' | 'sdkType' | 'isShowDisclaimer'
+		>;
 		this.tempSettings = obj;
 		this.relaunchRef = undefined;
 	}
 
 	getCompareStr(obj: Partial<Settings>) {
-		const { selectors, excludeSelectors } = obj;
-		return JSON.stringify({ selectors, excludeSelectors });
+		const { selectors, excludeSelectors, isShowDisclaimer } = obj;
+		return JSON.stringify({
+			selectors,
+			excludeSelectors,
+			isShowDisclaimer,
+		});
 	}
 
 	compareSetting() {
 		if (
 			this.getCompareStr(this.plugin.settings) !==
-			this.getCompareStr(this.tempSettings) &&
+				this.getCompareStr(this.tempSettings) &&
 			this.relaunchRef
 		) {
 			this.relaunchRef
@@ -50,7 +85,11 @@ export class SettingTab extends PluginSettingTab {
 				.addButton((btn) => {
 					btn.onClick(async () => {
 						this.compareKeys.forEach((key) => {
-							this.plugin.settings[key] = this.tempSettings[key];
+							if (key in this.plugin.settings) {
+								// @ts-expect-error
+								this.plugin.settings[key] =
+									this.tempSettings[key];
+							}
 						});
 						await this.plugin.saveData(this.plugin.settings);
 						window.location.reload();
@@ -100,18 +139,21 @@ export class SettingTab extends PluginSettingTab {
 		const excludeSelectorsValue = getArrayStr(
 			this.plugin.settings?.excludeSelectors
 		);
-		const debounceChangExcludeSelectorsFn = debounce(async (value:string) => {
-			try {
-				const temp = JSON.parse(value);
-				if (!temp.includes(excludeSelectorsDefault[0])) {
-					temp.unshift(excludeSelectorsDefault[0]);
+		const debounceChangExcludeSelectorsFn = debounce(
+			async (value: string) => {
+				try {
+					const temp = JSON.parse(value);
+					if (!temp.includes(excludeSelectorsDefault[0])) {
+						temp.unshift(excludeSelectorsDefault[0]);
+					}
+					tempSettings.excludeSelectors = temp;
+					this.compareSetting();
+				} catch (e) {
+					// empty
 				}
-				tempSettings.excludeSelectors = temp;
-				this.compareSetting();
-			} catch (e) {
-				// empty
 			}
-		});
+		);
+
 		new Setting(containerEl)
 			.setName('ExcludeSelectors')
 			.setDesc(`Array, default: ${getArrayStr(excludeSelectorsDefault)}`)
@@ -120,6 +162,30 @@ export class SettingTab extends PluginSettingTab {
 					.setValue(excludeSelectorsValue)
 					.onChange(debounceChangExcludeSelectorsFn)
 			);
+
+		new Setting(containerEl)
+			.setName('SDK Type')
+			.setDesc('SDK Type')
+			.addDropdown((dropdown) => {
+				dropdown.addOption('Lite', 'Lite');
+				// dropdown.addOption('Full', 'Full');
+				dropdown.setValue(this.plugin.settings.sdkType);
+				dropdown.onChange((value) => {
+					tempSettings.sdkType = value as SDKType;
+					this.compareSetting();
+				});
+			});
+
+		new Setting(containerEl)
+			.setName('Is Show Disclaimer')
+			.setDesc('Show Disclaimer')
+			.addToggle((toggle) => {
+				toggle.setValue(this.plugin.settings.isShowDisclaimer);
+				toggle.onChange((value) => {
+					tempSettings.isShowDisclaimer = value;
+					this.compareSetting();
+				});
+			});
 
 		this.relaunchRef = new Setting(containerEl);
 	}

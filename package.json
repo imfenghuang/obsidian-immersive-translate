@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-immersive-translate",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "A free-to-use translatation service for foreign language markdown file.",
 	"main": "main.js",
 	"scripts": {
@@ -19,6 +19,7 @@
 		"@typescript-eslint/parser": "5.29.0",
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.17.3",
+		"esbuild-plugin-copy": "^2.1.1",
 		"husky": "^9.1.4",
 		"lint-staged": "^15.2.9",
 		"obsidian": "latest",

@@ -1,11 +1,12 @@
 export const clearStorage = async () => {
 	// clear localStorage
 	const prefix = 'immersiveTranslate';
-	const keys = Object.keys(window.localStorage).filter((v) =>
-		v.startsWith(prefix)
+	const otherKeys = ['fullLocalUserConfig', 'buildinConfig', 'localConfig'];
+	const keys = Object.keys(window.localStorage).filter(
+		(v) => v.startsWith(prefix) || otherKeys.includes(v)
 	);
 	keys.forEach((v) => {
-		delete window.localStorage[v];
+		window.localStorage.removeItem(v);
 	});
 
 	// clear indexed-db
