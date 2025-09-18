@@ -67,14 +67,42 @@ export interface PageRule {
 	};
 }
 
+export type LiteSettings = {
+	partnerId?: string; //联盟 id (可选)
+	mountPoint?: {
+		//翻译按钮挂载点（可选）
+		selector: string; //选择器
+		action: 'append' | 'child' | 'before' | 'replace'; // 支持：append, child, before, replace
+	};
+	disclaimerPoint?: {
+		//翻译结果声明挂载点（可选）默认跟在翻译按钮后面
+		selector: string; //选择器
+		action: 'append' | 'child' | 'before' | 'replace'; // 支持：append, child, before, replace
+	};
+};
+
 export type PageRuleKey = keyof PageRule;
+
+export type SDKType = 'Lite' | 'Full';
 
 export type Settings = {
 	[key in PageRuleKey]: PageRule[key];
-};
+} & LiteSettings & {
+		sdkType: SDKType;
+		isShowDisclaimer: boolean;
+	};
 
 export type ImtConfig = {
 	pageRule: {
 		[key in keyof PageRule]: PageRule[key];
+	};
+	partnerId?: string;
+	mountPoint?: {
+		selector: string;
+		action: 'append' | 'child' | 'before' | 'replace';
+	};
+	disclaimerPoint?: {
+		selector: string;
+		action: 'append' | 'child' | 'before' | 'replace';
 	};
 };

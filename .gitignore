@@ -12,6 +12,7 @@ node_modules
 # They should be uploaded to GitHub releases instead.
 main.js
 styles.css
+!src/styles.css
 
 # Exclude sourcemaps
 *.map
@@ -23,4 +24,5 @@ data.json
 .DS_Store
 
 package-lock.json
+pnpm-lock.yaml
 .eslintcache

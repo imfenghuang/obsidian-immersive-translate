@@ -1,0 +1,15 @@
+#immersiveTranslate-translation-button-wrapper {
+	position: fixed;
+	bottom: 10%;
+	right: 10px;
+	background-color: rgb(253, 242, 248);
+	border: 1px solid rgb(251, 207, 232);
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: var(--layer-status-bar);
+}
+
+#immersiveTranslate-translation-button {
+	margin-bottom: -20px;
+}

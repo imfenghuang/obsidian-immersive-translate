@@ -4,6 +4,11 @@ Obsidian Immersive Translate is a Obsidian (https://obsidian.md) plugin for fore
 
 <img src="https://github.com/user-attachments/assets/f031508a-4d44-4aca-bb0d-8d3ef570ea8e" alt="Obsidian Immersive Translate" width="480px" style="display: block;margin: 0 auto;max-width: 480px"/>
 
+## Change Log
+
+- **Break Change**: Version `0.0.2` is only support `Immersive Translate Lite`, [Issue 10](https://github.com/imfenghuang/obsidian-immersive-translate/issues/10), [Issue 6](https://github.com/imfenghuang/obsidian-immersive-translate/issues/6)
+
+
 ## Installation
 
 ### Method 1:
@@ -22,13 +27,13 @@ Obsidian Immersive Translate is a Obsidian (https://obsidian.md) plugin for fore
 
 ## Usage
 
--   This plugin works in reading mode.
+- This plugin works in reading mode.
 
 ## Settings
 
--   Current version, you can set the `selectors` and `excludeSelectors` options
--   Any setting changes will take effect after relaunch
--   The `selectors` default is `[".markdown-reading-view *"]`
--   The `excludeSelectors` default is `[".markdown-reading-view .cm-inline-code"]`
+- Current version, you can set the `selectors` and `excludeSelectors` options∏
+- Any setting changes will take effect after relaunch
+- The `selectors` default is `[".markdown-reading-view *"]`
+- The `excludeSelectors` default is `[".markdown-reading-view .cm-inline-code"]`
 
 ![imt-setting](https://github.com/user-attachments/assets/96155663-5f9b-44bf-a3ce-4e3e14d10518)
