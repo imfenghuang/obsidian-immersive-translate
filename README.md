@@ -27,7 +27,7 @@ Obsidian Immersive Translate is a Obsidian (https://obsidian.md) plugin for fore
 
 ## Usage
 
-- This plugin works in reading mode.
+- This plugin works in `reading mode`.
 
 ## Settings
 
